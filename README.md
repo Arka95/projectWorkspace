@@ -11,7 +11,9 @@ This includes but is not limited to:
 - providing vscode, github-copilot configurations.
 - some baseline/r reference github instructions
 
-**Agent policy:** `.github\instructions\workspace.instructions.md` covers all instructions.
+**Agent policy:** [Shared instructions](.github/instructions/workspace.instructions.md).
+
+Load MCPs from here: .vscode\mcp.json
 
 Open the editor workspace:
 
@@ -19,11 +21,34 @@ Open the editor workspace:
 code C:\projects\projectWorkspace\projectWorkspace.code-workspace
 ```
 
-| Guide | Purpose |
-|---|---|
-| `docs\dev.readme.md` | Client activation, verification, rollback and new-project adoption |
-| `docs\standards.md` | Test lanes, dependencies, configuration, models and docs conventions |
-| `docs\mcp.md` | Built-in-first baseline and optional client-specific MCP recipes |
-| `docs\skills.md` | Owner-authored diagram guide, provenance and personal discovery |
-| `docs\comparisons\yapit-vs-thea.md` | Detailed evidence-backed comparison and remaining proposals |
+## Activation
 
+Add these user-level entries, preserving existing values:
+
+| Client | Setup |
+|---|---|
+| Copilot CLI | Add `C:\projects\projectWorkspace\.github\instructions` to the comma-separated user environment variable `COPILOT_CUSTOM_INSTRUCTIONS_DIRS`. |
+| VS Code Copilot | In user settings, add `"C:\\projects\\projectWorkspace\\.github\\instructions": true` under `chat.instructionsFilesLocations`. |
+| Shared skill | Point the personal directory junction `~\.copilot\skills\techdiagrams` to `C:\projects\projectWorkspace\.github\skills\techdiagrams`. |
+
+These entries are already configured locally. Start a fresh terminal/reload VS Code
+after setup. Instructions load directly; `AGENTS.md` is not required.
+
+Verify from a project directory:
+
+```powershell
+$env:COPILOT_CUSTOM_INSTRUCTIONS_DIRS = [Environment]::GetEnvironmentVariable('COPILOT_CUSTOM_INSTRUCTIONS_DIRS', 'User')
+copilot instruction list
+copilot skill list
+```
+
+To undo activation, remove only these entries and the personal skill junction,
+not the canonical skill files.
+
+## References
+
+| Resource | Purpose |
+|---|---|
+| [VS Code MCP configuration](.vscode/mcp.json) | Workspace tool servers |
+| [TechDiagrams](.github/skills/techdiagrams/SKILL.md) | Diagram guide and skill entry point |
+| [YapIt / Thea comparison](docs/comparisons/yapit-vs-thea.md) | Requested cross-project analysis |
