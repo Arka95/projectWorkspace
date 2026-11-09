@@ -3,6 +3,7 @@ applyTo: "**"
 ---
 
 # Shared development policy
+projectWorkspace is a project directory that will contain other git projects and serve as a project workspace environment for those projects.
 
 ## Scope and permissions
 - Explicit implementation requests provide standing authorization for ordinary
@@ -55,7 +56,6 @@ applyTo: "**"
   pass configuration at boundaries instead of scattering environment reads.
 
 ## git and commits
-- projectWorkspace is a project directory that will contain other git projects and serve as a project workspace environment for those projects.
 - by default, an ask to push or commit will apply to the project in context and never to projectWorkspace.
 - Here is a sample reference of what could be in .gitignore for the projects contained inside projectWorkspace
 ```
@@ -102,12 +102,10 @@ Thumbs.db
 
 
 ## Requirements and dependencies
-- Establish acceptance criteria and scope before substantial changes; keep
-  feature requirements in project docs/issues and tie validation to behavior.
 - Reuse the project's dependency manifest/lock tooling. Separate runtime, dev and
   optional heavy/backend dependencies; record compatible versions and Python.
 - Install/restore only after manifest changes or a missing-dependency failure.
-  Do not freeze an entire machine environment or weaken TLS to make installs pass.
+  Do not freeze an entire machine environment.
 
 ## CPU/GPU and model onboarding
 - Keep incompatible CPU/GPU/vendor stacks in project-owned isolated environments.
@@ -121,7 +119,6 @@ Thumbs.db
 - A generation retry means fresh inference unless output reuse was explicitly
   requested. Do not silently add replay caching or change existing application
   cache semantics. Close owned resources, never somebody else's model server.
-- Validate onboarding with mocks first; real CPU/GPU trials need authorization.
 
 ## Lightweight diagnostics and MCP
 - Reuse existing timing/logging helpers at meaningful boundaries; avoid per-call
@@ -143,3 +140,4 @@ Thumbs.db
 - Shared standards live here; product behavior, commands, results and domain
   research stay with their project. Keep current decisions separate from research.
 - Update affected guides with behavior changes, not speculative implementation claims.
+- Keep mprovement/bug-fix requirements in project docs/todo and tie validation to behavior before removing from todo.
