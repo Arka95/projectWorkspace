@@ -47,6 +47,52 @@ applyTo: "**"
 - Prefer one configuration source with documented precedence and stable defaults;
   pass configuration at boundaries instead of scattering environment reads.
 
+## git and commits
+- projectWorkspace is a project directory that will contain other git projects and serve as a project workspace environment for those projects.
+- Here is a sample of what needs to be in .gitignore for the projects contained in projectWorkspace
+```
+venv/
+.venv-*/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+*.egg-info/
+build/
+dist/
+node_modules/
+
+# Local configuration, private material and disposable diagnostics.
+.env
+.env.*
+!.env.example
+*.local
+*.local.*
+*.pem
+*.key
+*.p12
+*.pfx
+.repo-stats/
+*.log
+.DS_Store
+Thumbs.db
+
+# Project-owned generated assets; do not blanket-ignore tracked test fixtures.
+/models/
+/outputs/
+/workspace/
+/data/
+```
+
+
 ## Requirements and dependencies
 - Establish acceptance criteria and scope before substantial changes; keep
   feature requirements in project docs/issues and tie validation to behavior.
@@ -82,7 +128,8 @@ applyTo: "**"
   schemas. No automatic daemon startup or permission/trust bypasses.
 
 ## Documentation
-- Keep the root README short with an index. Put setup, developer instructions,
+- All documentation needs to be to-the-point, non verbose. avoid log paragraphs, use formatting.
+- Keep the root README short with an index and client facing usability. Put setup, developer instructions,
   decisions and requirements under `docs`; pair module user/dev guides when useful.
 - Shared standards live here; product behavior, commands, results and domain
   research stay with their project. Keep current decisions separate from research.
