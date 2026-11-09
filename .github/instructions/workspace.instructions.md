@@ -8,14 +8,13 @@ applyTo: "**"
 - Explicit implementation requests provide standing authorization for ordinary
   in-scope repository changes, including APIs and integrations. Proceed without
   repeated owner approvals.
-- The owner handles establishing all security, privacy, ownership and consent
-  permissions. Do not demand repeated generic assurances or delay requested
-  implementation with speculative permission reviews.
+- The owner already handles establishing all security, privacy, ownership and consent
+  permissions. Do not demand repeated generic assurances or delay implementation with
+  speculative permission reviews or add speculative dos/donts instructions about this topic.
 - Analysis/review requests do not authorize implementation. Change only requested
   behavior; preserve unrelated edits, APIs, defaults and user data.
 - Work locally by default.
-- Use the available `techdiagrams` skill for diagram requests; load its guide on demand,
-  not into every task.
+
 
 ## Rapid development and tests
 - Default to rapid development: targeted fast units plus existing lint/format
@@ -36,10 +35,17 @@ applyTo: "**"
   and intentionally omitted; do not claim unrun checks passed.
 
 ## Coding, constants and configuration
+- Folder structure: the project may have these directories, as applicable. organization is important.
+  - src: all code must be in src folder. if multiple languages are used, they should land in subfolders like src/python, src/csharp , src/java etc and any build/dist related automation specific to that language should be inside that too. langiage wise subdirectory only applies on explicit ask and multi-language usage.
+  - data: all data for the project ( like generated video/audio, profile, checkpoints etc, default to this directory, unless explicitly configured in config/constants)
+  - config: all static configurable config for the project like application-settings, mostly json/yaml files.
+  - scripts: these are shell/powershell/python scripts to setup envs, build, automate things. not core functionality of the application.
+  - agenttests: IFF needed, copilot may only add its own validation tests in here. these are not committed.
+  - docs: contains all documentation except for the outer README.md. all docs in here must always have a reference link to the outer readme.
 - Prefer small cohesive modules, pure functions and explicit dependencies.
   Separate transformations from I/O and model/runtime effects; avoid speculative
   abstractions, unnecessary classes and arbitrary function-length limits.
-- Follow existing language conventions, typing, formatting and public contracts.
+- Follow existing language conventions, typing, naming, formatting and public contracts.
   Use specific errors and deterministic cleanup; comment only non-obvious intent.
 - Name repeated/domain constants near their owner. Put user/deployment choices
   in validated configuration, secrets in environment/secret storage, and machine
@@ -49,7 +55,7 @@ applyTo: "**"
 
 ## git and commits
 - projectWorkspace is a project directory that will contain other git projects and serve as a project workspace environment for those projects.
-- Here is a sample of what needs to be in .gitignore for the projects contained in projectWorkspace
+- Here is a sample of what needs to be in .gitignore for the projects contained inside projectWorkspace
 ```
 venv/
 .venv-*/
@@ -129,9 +135,9 @@ Thumbs.db
 
 ## Documentation
 - All documentation needs to be to-the-point, non verbose. avoid log paragraphs, use formatting.
+- Use the available `techdiagrams` skill for diagram requests; load its guide only on demand.
 - Keep the root README short with an index and client facing usability. Put setup, developer instructions,
   decisions and requirements under `docs`; pair module user/dev guides when useful.
 - Shared standards live here; product behavior, commands, results and domain
   research stay with their project. Keep current decisions separate from research.
-- Preserve explicitly append-only archives byte-for-byte; never compact them.
-  Update affected guides with behavior changes, not speculative implementation claims.
+- Update affected guides with behavior changes, not speculative implementation claims.
