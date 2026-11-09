@@ -36,15 +36,16 @@ applyTo: "**"
 
 ## Coding, constants and configuration
 - Folder structure: the project may have these directories, as applicable. organization is important.
-  - src: all code must be in src folder. if multiple languages are used, they should land in subfolders like src/python, src/csharp , src/java etc and any build/dist related automation specific to that language should be inside that too. langiage wise subdirectory only applies on explicit ask and multi-language usage.
+  - src: all code must be in src folder. if multiple languages are used, they should land in subfolders like src/python, src/csharp , src/java etc and any build/dist related automation specific to that language should be inside that too. langiage wise subdirectory only applies on explicit ask and multi-language usage. Inside the src or src/<language>, each folder usually should represent a module.
   - data: all data for the project ( like generated video/audio, profile, checkpoints etc, default to this directory, unless explicitly configured in config/constants)
-  - config: all static configurable config for the project like application-settings, mostly json/yaml files.
+  - config: all static configurable config for the project (like application-settings,non-default root data and config directories, llm model's settings etc), mostly json/yaml files.
   - scripts: these are shell/powershell/python scripts to setup envs, build, automate things. not core functionality of the application.
   - agenttests: IFF needed, copilot may only add its own validation tests in here. these are not committed.
   - docs: contains all documentation except for the outer README.md. all docs in here must always have a reference link to the outer readme.
 - Prefer small cohesive modules, pure functions and explicit dependencies.
   Separate transformations from I/O and model/runtime effects; avoid speculative
   abstractions, unnecessary classes and arbitrary function-length limits.
+- generic common utilities should be in a common or comon_utils or utils folder. example: generic config loading, environmnet selection, file/security handling etc.
 - Follow existing language conventions, typing, naming, formatting and public contracts.
   Use specific errors and deterministic cleanup; comment only non-obvious intent.
 - Name repeated/domain constants near their owner. Put user/deployment choices
@@ -55,7 +56,8 @@ applyTo: "**"
 
 ## git and commits
 - projectWorkspace is a project directory that will contain other git projects and serve as a project workspace environment for those projects.
-- Here is a sample of what needs to be in .gitignore for the projects contained inside projectWorkspace
+- by default, an ask to push or commit will apply to the project in context and never to projectWorkspace.
+- Here is a sample reference of what could be in .gitignore for the projects contained inside projectWorkspace
 ```
 venv/
 .venv-*/
