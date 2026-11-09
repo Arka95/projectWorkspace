@@ -133,11 +133,17 @@ Thumbs.db
   schemas. No automatic daemon startup or permission/trust bypasses.
 
 ## Documentation
-- All documentation needs to be to-the-point, non verbose. avoid log paragraphs, use formatting.
-- Use the available `techdiagrams` skill for diagram requests; load its guide only on demand.
-- Keep the root README short with an index and client facing usability. Put setup, developer instructions,
-  decisions and requirements under `docs`; pair module user/dev guides when useful.
-- Shared standards live here; product behavior, commands, results and domain
-  research stay with their project. Keep current decisions separate from research.
-- Update affected guides with behavior changes, not speculative implementation claims.
-- Keep mprovement/bug-fix requirements in project docs/todo and tie validation to behavior before removing from todo.
+- Be concise; prefer headings, tables and examples over long paragraphs.
+- Root `README.md`: purpose, quick setup, usage/commands and a linked project/module
+  index with columns `Document | Dev guide | Purpose`.
+- Keep other docs under `docs`, each linking back to the root README.
+- `docs\dev.readme.md`: folder/module ownership map, workflow, setup/configuration,
+  testing and build/integration details. Link module guides; avoid file inventories.
+- Module guides: `docs\<module>\README.md` for usage; paired `dev.readme.md` for
+  internals, configuration and tests. Avoid duplicating project-wide guidance.
+- `docs\analysis.md`: dated scope, current decisions/tradeoffs, configuration,
+  constraints and evidence/acceptance criteria; link detailed research separately.
+- Keep shared standards here and product docs in their project. Update guides
+  with behavior/refactors; distinguish implemented behavior from proposals.
+- Track improvements/bugs in `docs\todo`; verify behavior before closing items.
+- Use `techdiagrams` for diagram requests; load its guide only on demand.
