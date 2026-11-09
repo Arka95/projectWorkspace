@@ -1,3 +1,61 @@
 {
-    "servers": {}
+  "servers": {
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    "seq-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@gotza02/seq-thinking"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "git": {
+      "type": "stdio",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\mcp-server-git.exe",
+      "args": [
+        "--repository",
+        "${workspaceFolder}"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "excalidraw": {
+      "type": "http",
+      "url": "https://mcp.excalidraw.com"
+    },
+    "huggingface": {
+      "type": "http",
+      "url": "https://huggingface.co/mcp?login"
+    }
+  }
 }
