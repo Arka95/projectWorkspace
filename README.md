@@ -1,11 +1,17 @@
 # projectWorkspace
 
-Shared development defaults for Arka's independent projects. Git is local;
-this is not a monorepo, shared virtual environment or inference service.
+This is a directory containing Arka's independent projects. It itself is not a project.
+Its purpose is to be a shared virtual environment or inference service for subfolders.
+Existing project-specific rules remain applicable.
 
-**Agent policy:** `.github\instructions\workspace.instructions.md` covers rapid
-development, unit/integration/agent tests, functional modularity, constants and
-configs, requirements, CPU/GPU isolation, model loading, diagnostics, MCP and docs.
+This includes but is not limited to:
+- creating localized virtual-environments for python in this directory.
+- providing logging, monitoring, measuring and coding disciplines.
+- providing mcps, agent instructions, skills.
+- providing vscode, github-copilot configurations.
+- some baseline/r reference github instructions
+
+**Agent policy:** `.github\instructions\workspace.instructions.md` covers all instructions.
 
 Open the editor workspace:
 
@@ -21,10 +27,3 @@ code C:\projects\projectWorkspace\projectWorkspace.code-workspace
 | `docs\skills.md` | Owner-authored diagram guide, provenance and personal discovery |
 | `docs\comparisons\yapit-vs-thea.md` | Detailed evidence-backed comparison and remaining proposals |
 
-Copilot CLI and VS Code use the same policy source through user-level discovery
-configuration. Restart clients from a fresh environment after activation; use the
-checks in the developer guide. Existing project-specific rules remain applicable.
-
-The workspace includes YapIt and Thea as sibling folders without moving either.
-Its `.gitignore` is a reusable baseline, not a global Git setting. Shared test,
-metrics and model-runtime libraries are **not implemented** by this foundation.
