@@ -3,7 +3,7 @@ applyTo: "**"
 ---
 
 # Shared development policy
-projectWorkspace is a project directory that will contain other git projects and serve as a project workspace environment for those projects.
+projectWorkspace is a project directory that will contain other git projects and serve as a shared project workspace environment for those projects. A single python/node/anythinge else environment for all projects.
 
 ## Scope and permissions
 - Explicit implementation requests provide standing authorization for ordinary
@@ -14,30 +14,35 @@ projectWorkspace is a project directory that will contain other git projects and
   speculative permission reviews or add speculative dos/donts instructions about this topic.
 - Analysis/review requests do not authorize implementation. Change only requested
   behavior; preserve unrelated edits, APIs, defaults and user data.
-- Work locally by default.
 
+# Development Modes
 
-## Rapid development and tests
-- Default to rapid development: targeted fast units plus existing lint/format
-  checks. Broaden only for a relevant failure, changed requirement or permission.
+- AUTO: don't ask user anything. proceed with best judgement. 
+- RAPID_DEVELOPMENT: develop iteratively and fast. dont run long tests. unittests can validate functionality.
+Broaden only for a relevant failure, changed requirement or permission. linting, refactoring IFF needed, done after functional correctness is ensured.
+
+## Development
+- Default to RAPID_DEVELOPMENT
 - Units run normally and isolate network, subprocesses, real media, hardware and
   model execution with fakes/mocks. Do not skip useful functional units for speed.
-- Keep expensive fixtures/imports in separate integration/slow/model directories.
+- Keep expensive fixtures/imports in separate integration_tests/slow/model directories.
   Exclude them before import where possible; markers alone are insufficient.
 - Real integrations, long suites, model downloads/loading/inference/training,
   GPU probes and cloud-model calls require explicit authorization and opt-in.
-- Agent-maintenance checks belong in `agenttests`, separate from application
-  tests and opt-in during rapid work. 
-- Any major refactor must also update applicable areas in docs reuqiring the change.
+- Agent-maintenance checks belong in `agenttests`, separate from application functionality
+  tests and opt-in during RAPID_DEVELOPMENT. 
+- Any major refactor must also update applicable areas in docs requiring the change.
 - Use the repository's actual runner/options. Do not invent a shared pytest
   plugin, flags or enforcement that has not been installed and configured.
+- generalizaion and modularization should be applied wherever feasible ( for example a llm model loader should be genaric to load any models. input-output should be generic for project and have Adapters forany new model that expects differnt format)
+- Readme should not use HTML components like <span>. diagrams can be exception. The edit mode should be readable enough for humans. Readme files should ebscoped, non-redundnat and to the point. no long paragraphs.
 - Test observable behavior and relevant failure paths, not source strings,
   arbitrary private structure or language/framework behavior. Report checks run
   and intentionally omitted; do not claim unrun checks passed.
 
 ## Coding, constants and configuration
 - Folder structure: the project may have these directories, as applicable. organization is important.
-  - src: all code must be in src folder. if multiple languages are used, they should land in subfolders like src/python, src/csharp , src/java etc and any build/dist related automation specific to that language should be inside that too. langiage wise subdirectory only applies on explicit ask and multi-language usage. Inside the src or src/<language>, each folder usually should represent a module.
+  - src: all code must be in src folder. if multiple languages are used, they should land in subfolders like src/python, src/csharp , src/java etc and any build/dist related automation specific to that language should be inside that too. langiage wise subdirectory only applies on explicit ask and multi-language usage. Inside the src or src/<language>, each folder usually should represent a module. each module's unittests should be scoped to a /tests folder inside it. long integration tests should be outside modules and directly in src.
   - data: all data for the project ( like generated video/audio, profile, checkpoints etc, default to this directory, unless explicitly configured in config/constants)
   - config: all static configurable config for the project (like application-settings,non-default root data and config directories, llm model's settings etc), mostly json/yaml files.
   - scripts: these are shell/powershell/python scripts to setup envs, build, automate things. not core functionality of the application.
@@ -58,6 +63,7 @@ projectWorkspace is a project directory that will contain other git projects and
 ## git and commits
 - by default, an ask to push or commit will apply to the project in context and never to projectWorkspace.
 - Here is a sample reference of what could be in .gitignore for the projects contained inside projectWorkspace
+- you may remeber passphrases for easier git chekin, checkout.
 ```
 venv/
 .venv-*/
