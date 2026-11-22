@@ -6,11 +6,11 @@
         },
         {
             "name": "yapit",
-            "path": "..\\yapit"
+            "path": "yapit"
         },
         {
             "name": "Thea",
-            "path": "..\\Thea"
+            "path": "Thea"
         }
     ]
 }

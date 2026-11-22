@@ -18,7 +18,7 @@ Load MCPs from here: .vscode\mcp.json
 Open the editor workspace:
 
 ```powershell
-code C:\projects\projectWorkspace\projectWorkspace.code-workspace
+code C:\projectWorkspace\projectWorkspace.code-workspace
 ```
 
 ## Activation
@@ -27,9 +27,9 @@ Add these user-level entries, preserving existing values:
 
 | Client | Setup |
 |---|---|
-| Copilot CLI | Add `C:\projects\projectWorkspace\.github\instructions` to the comma-separated user environment variable `COPILOT_CUSTOM_INSTRUCTIONS_DIRS`. |
-| VS Code Copilot | In user settings, add `"C:\\projects\\projectWorkspace\\.github\\instructions": true` under `chat.instructionsFilesLocations`. |
-| Shared skill | Point the personal directory junction `~\.copilot\skills\techdiagrams` to `C:\projects\projectWorkspace\.github\skills\techdiagrams`. |
+| Copilot CLI | Add `C:\projectWorkspace\.github\instructions` to the comma-separated user environment variable `COPILOT_CUSTOM_INSTRUCTIONS_DIRS`. |
+| VS Code Copilot | In user settings, add `"C:\\projectWorkspace\\.github\\instructions": true` under `chat.instructionsFilesLocations`. |
+| Shared skill | Point the personal directory junction `~\.copilot\skills\techdiagrams` to `C:\projectWorkspace\.github\skills\techdiagrams`. |
 
 These entries are already configured locally. Start a fresh terminal/reload VS Code
 after setup. Instructions load directly; `AGENTS.md` is not required.

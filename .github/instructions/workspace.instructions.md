@@ -24,7 +24,7 @@ Broaden only for a relevant failure, changed requirement or permission. linting,
 
 ## Requirements and dependencies
 - Reuse the project's dependency manifest/lock tooling. Separate runtime, dev and
-  optional heavy/backend dependencies; record compatible versions and Python.
+  optional heavy/backend dependencies; compatibility should be loose, not strict or upperbounded (unless absolutely required)
 - Install/restore only after manifest changes or a missing-dependency failure.
   Do not freeze an entire machine environment.
 
@@ -48,18 +48,26 @@ Broaden only for a relevant failure, changed requirement or permission. linting,
 
 ## Coding, constants and configuration
 - Folder structure: the project may have these directories, as applicable. organization is important.
-  - src: all code must be in src folder. if multiple languages are used, they should land in subfolders like src/python, src/csharp , src/java etc and any build/dist related automation specific to that language should be inside that too. langiage wise subdirectory only applies on explicit ask and multi-language usage. Inside the src or src/<language>, each folder usually should represent a module. each module's unittests should be scoped to a /tests folder inside it. long integration tests should be outside modules and directly in src.
+  - src: all code must be in src folder. if multiple languages are used, they should land in subfolders like src/python, src/csharp , src/java etc and any build/dist related automation specific to that language should be inside that too. language wise subdirectory only applies on explicit ask and multi-language usage. Inside the src or src/<language>, each folder usually should represent a module. each module's unittests should be scoped to a /tests folder inside it. long integration tests should be outside modules and directly in src.
+  - if the application has functions executed in pipelines(s) for the client facing operations/commands, a workflow module can be created where we keep the workflows/piplines.
+    - workflows should follow chain of excution/ monad style, have interface/metaclass disipline where piplines have save/ cleanup options for generated0intermediate-file cleanup/save/load mainteanace if applciable. each function exceutable is an Action which also follows a similar cleanup pattern.
+    - the entire workflow should have overall metric decorator for measuremment. individual Action in workflow calls should also be measured/metrics mangegd at workflow-level using the common/shared metrics and logging.
+    - each workflow should have runid. actions do not have ids.
   - data: all data for the project ( like generated video/audio, profile, checkpoints etc, default to this directory, unless explicitly configured in config/constants)
   - config: all static configurable config for the project (like application-settings,non-default root data and config directories, llm model's settings etc), mostly json/yaml files.
   - scripts: these are shell/powershell/python scripts to setup envs, build, automate things. not core functionality of the application.
   - agenttests: IFF needed, copilot may only add its own validation tests in here. these are not committed.
-  - docs: contains all documentation except for the outer README.md. all docs in here must always have a reference link to the outer readme.
+
+### readability
+- module/Class/function/attribute names should be  decriptive enough but not too short, or too long. Each class /file should have DESCRIPTION as commnets in the beginning. each function should have a 2-3line DESCRIPTION below its def.
+DESCRIPTION for functions must contain what and how the thing is being done. Input output should be part of func def. for classes/files . decscription should cover what it is and wht is its responsibility 
+- large json/dict/blob produced as intermediate-output should be made into Class objects and passed around function as objects. 
+- circular depdencny, non-linear depdendencies amon modules should be avoided when possible.
 - Prefer small cohesive modules, pure functions and explicit dependencies.
-  Separate transformations from I/O and model/runtime effects; avoid speculative
-  abstractions, unnecessary classes and arbitrary function-length limits.
-- generic common utilities should be in a common or comon_utils or utils folder. example: generic config loading, environmnet selection, file/security handling etc.
-- Follow existing language conventions, typing, naming, formatting and public contracts.
-  Use specific errors and deterministic cleanup; comment only non-obvious intent.
+  Separate transformations from I/O and model/runtime effects; functions within 50-60 lines of logic is preferred.
+- generic common utilities should be in a common or comon_utils or utils folder. example: generic config loading, environmnet selection, file/security handling, logging/metrics/stats etc.
+- Follow  language best-practices like a senior-dev, typing, naming, formatting and public contracts.
+  Use specific errors and deterministic cleanup at object/pipline/file levels.
 - Name repeated/domain constants near their owner. Put user/deployment choices
   in validated configuration, secrets in environment/secret storage, and machine
   paths in local configuration. Do not make every internal detail configurable.
@@ -95,6 +103,7 @@ htmlcov/
 build/
 dist/
 node_modules/
+agenttests/
 
 # Local configuration, private material and disposable diagnostics.
 .env
@@ -144,18 +153,31 @@ Thumbs.db
   schemas. No automatic daemon startup or permission/trust bypasses.
 
 ## Documentation
-- Be concise; prefer headings, tables and examples over long paragraphs.
-- Readme contents should be scoped, non-redundant with less/no overlap with other readme files.
-- Root `README.md`: purpose, quick setup, usage/commands and a linked project/module
-  index with columns `Document | Dev guide | Purpose`.
-- Keep other docs under `docs`, each linking back to the root READMElike this:
-[Back to REPO_ROOT](../README.md) | [ref to module's readme](README.md)
+### General Instructions
+- These are professional client-facing docs/instructions/manuals.
+ Be concise; prefer headings, tables and examples over long paragraphs. 
+- if describing a workflow or module responsibility module/workflow input and its output should be made clear. 
+ if multiple steps |input| step-inviolved (and what it does in 2-3lines)| output produced| should be in a table.
+ if input and output are images or have a image representation use a 128x128 image in the table. instead of json/text example
+- Readme contents should be scoped, non-redundant with less overlap with other readme files.
+- Readme should not use HTML components like <span>, diagrams can be exception. The edit mode should be readable enough for humans. 
+- content should not contain copilot instructions, run output-analysis, "what it is not".
+- Use `techdiagrams` skill for diagram requests; load its guide only on demand.
+
+### ROOT README
+- Root `README.md`: purpose, quick setup, usage/commands and a linked project/module, overall HLD architecture diagram, end with an index with columns `Document | Dev guide | Purpose`.
+- `docs\dev.readme.md`: folder/module ownership map, workflow, setup/configuration,
+
+### MODULE README
+- Keep per-module readme under `docs`, each linking back to the root README like this:
+[Back to <REPO_NAME(use the repo name)>](../README.md) | [ref to module's readme](README.md)
   testing and build/integration details. Link module guides; avoid file inventories.
-- Module guides: `docs\<module>\README.md` for scoped responsibility, usage; paired with `dev.readme.md` for internals, configuration and tests. Avoid duplicating project-wide guidance.
+- Module guides: `docs\<module>\README.md` for scoped responsibility, usage; paired with `dev.readme.md` for internals, configuration and tests( describe how it is tested, not the unittest location). Avoid duplicating project-wide guidance.
+
+### Otehr docs
 - `docs\analysis.md`: current decisions/tradeoffs/ considered alternatives in a table containing their salient features, configuration for chosen options, constraints and evidence/acceptance criteria; link detailed research separately.
 - Keep shared standards here and product docs in their project. Update guides
   with behavior/refactors; distinguish implemented behavior from proposals.
-- Track improvements/bugs in `docs\todo`; verify behavior before closing items.
-- `docs\dev.readme.md`: overall HLD architecture diagram, folder/module ownership map, workflow, setup/configuration,
-- Use `techdiagrams` skill for diagram requests; load its guide only on demand.
-- Readme should not use HTML components like <span>, diagrams can be exception. The edit mode should be readable enough for humans. 
+- agenttests\docs : IFF needed, any temporary run inofrmation, performance/ side notes you, the agent need or come up with, you save it here instead of cluttering main readme. 
+- `docs\todo`: Track improvements/bugs/future features in here; verify behavior before closing items.
+
