@@ -172,9 +172,10 @@ Thumbs.db
 - Keep per-module readme under `docs`, each linking back to the root README like this:
 [Back to <REPO_NAME(use the repo name)>](../README.md) | [ref to module's readme](README.md)
   testing and build/integration details. Link module guides; avoid file inventories.
-- Module guides: `docs\<module>\README.md` for scoped responsibility, usage; paired with `dev.readme.md` for internals, configuration and tests( describe how it is tested, not the unittest location). Avoid duplicating project-wide guidance.
+- Module guides: `docs\<module>\README.md` for scoped responsibility, usage/ This should read like a product document. can have usage flow diagram if applicable.
+- paired with `docs\<module>\dev.readme.md` for internals, configuration and tests( describe how it is tested, not the unittest location). Avoid duplicating project-wide guidance. Any module sepcific configuration can be briefly described here too.
 
-### Otehr docs
+### Other docs
 - `docs\analysis.md`: current decisions/tradeoffs/ considered alternatives in a table containing their salient features, configuration for chosen options, constraints and evidence/acceptance criteria; link detailed research separately.
 - Keep shared standards here and product docs in their project. Update guides
   with behavior/refactors; distinguish implemented behavior from proposals.
